@@ -8,7 +8,6 @@ import { KeywordRouter } from './Routers/UserRouter/Keyword/KeyWord.js'
 import { CommonRouter } from './Routers/CommonRouter/Common.js'
 import { userRouter } from './Routers/UserRouter/UserEntry/User.js'
 import { UserProfileRouter } from './Routers/UserRouter/Profile/Profile.js'
-import UserAuthorization from './Controllers/UserAuthorization.js'
 import { RecentProductRouter } from './Routers/UserRouter/RecentlyViewedProduct/RecentlyViewedProducts.js'
 import { UserProductRouter } from './Routers/UserRouter/Product/Product.js'
 import { CheckoutRouter } from './Routers/UserRouter/Product/Checkout.js'
@@ -19,6 +18,7 @@ import { ProductRouter } from './Routers/AdminRouter/Product/Product.js'
 import { AdminCheckoutRouter } from './Routers/AdminRouter/Product/Checkout.js'
 import { AdminKeywordRouter } from './Routers/AdminRouter/Keyword/Keyword.js'
 import { adminCommonRouter } from './Routers/AdminRouter/Common.js'
+import UserAuthorization from './Controllers/UserAuthoriZation.js'
 
 
 // STEP 2: Connect MongoDB
