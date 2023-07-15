@@ -55,9 +55,5 @@ app.use("/admincheckout",AdminAuthorization,AdminCheckoutRouter) // Checkout rou
 app.use("/adminkeywords",AdminAuthorization,AdminKeywordRouter) //keyword router
 app.use("/admincommon",AdminAuthorization,adminCommonRouter) // common router for admin
 
-app.get("/",async(request,response)=>{
-    const products = await Product.find()
-    response.status(200).json(products)
-})
 // STEP 5: Create local host listening port
 app.listen(process.env.PORT)
