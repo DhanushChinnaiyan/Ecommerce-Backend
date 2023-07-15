@@ -19,6 +19,7 @@ import { AdminCheckoutRouter } from './Routers/AdminRouter/Product/Checkout.js'
 import { AdminKeywordRouter } from './Routers/AdminRouter/Keyword/Keyword.js'
 import { adminCommonRouter } from './Routers/AdminRouter/Common.js'
 import UserAuthorization from './Controllers/UserAuthoriZation.js'
+import { Product } from './Modules/Common/Product.js'
 
 
 // STEP 2: Connect MongoDB
@@ -55,5 +56,9 @@ app.use("/admincheckout",AdminAuthorization,AdminCheckoutRouter) // Checkout rou
 app.use("/adminkeywords",AdminAuthorization,AdminKeywordRouter) //keyword router
 app.use("/admincommon",AdminAuthorization,adminCommonRouter) // common router for admin
 
+app.get("/",async(request,response)=>{
+    const products = await Product.find()
+    response.status(200).json(products)
+})
 // STEP 5: Create local host listening port
 app.listen(process.env.PORT)
