@@ -3,7 +3,6 @@ import express from 'express'
 import cors from 'cors'
 import dotenv from 'dotenv'
 import DataBaseConnection from './db.js'
-
 import { KeywordRouter } from './Routers/UserRouter/Keyword/KeyWord.js'
 import { CommonRouter } from './Routers/CommonRouter/Common.js'
 import { userRouter } from './Routers/UserRouter/UserEntry/User.js'
@@ -20,6 +19,8 @@ import { AdminKeywordRouter } from './Routers/AdminRouter/Keyword/Keyword.js'
 import { adminCommonRouter } from './Routers/AdminRouter/Common.js'
 import UserAuthorization from './Controllers/UserAuthoriZation.js'
 import { Product } from './Modules/Common/Product.js'
+import { Base64 } from 'js-base64'
+import CryptoJS from 'crypto-js'
 
 
 // STEP 2: Connect MongoDB
@@ -60,5 +61,43 @@ app.get("/",async(request,response)=>{
     const products = await Product.find()
     response.status(200).json(products)
 })
+
+// secured url verification
+app.get('/urlverification', (req, res) => {
+    const URLToken = req.query.token;
+    const value = req.query.value;
+    const timestamp = req.query.timestamp;
+  
+    try {
+        const Token = "NTA0M2YwNzYxYTQ0OGRjYjljM2VkZGZlYmQ0ZWI2NTgzMThjMDc1ODgxYjZmYTRjYmEwMTQ2ODNmMmNmYWEyMg";
+      // Decode the URLToken
+      const decodedHash = Base64.decode(URLToken);
+  
+      // Recreate the combinedString
+      const combinedString = `${Token}:${timestamp}`;
+  
+      // Hash the new combinedString using the same cryptographic hash function
+      const hashedString = CryptoJS.SHA256(combinedString).toString();
+
+      // Compare the new hash with the decodedHash
+      if (hashedString !== decodedHash) {
+        return res.status(400).json({ message: 'Invalid URL' });
+      }
+  
+      // Verify the timestamp if needed
+      const currentTimestamp = Date.now();
+      if (parseInt(timestamp, 10) < currentTimestamp) {
+        return res.status(400).json({ message: 'URL has expired' });
+      }
+  
+      // If everything is valid, proceed with the password reset process
+      // ...
+  
+      return res.status(200).json({ message: 'URL verified' });
+    } catch (error) {
+        console.log(error)
+      return res.status(400).json({ message: 'Internal server problem' });
+    }
+  })
 // STEP 5: Create local host listening port
 app.listen(process.env.PORT)
